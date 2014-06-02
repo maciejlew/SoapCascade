@@ -27,10 +27,9 @@
 require_once '../lib/ServiceProxy.php';
 require_once '../lib/ServiceRegister.php';
 require_once '../lib/ServiceRegisterProxyNotSetException.php';
+require_once '../lib/SoapCascadeServer.php';
 
-use SoapCascade\ServiceProxy;
-use SoapCascade\ServiceRegister;
-use SoapCascade\ServiceRegisterProxyNotSetException;
+use SoapCascade\SoapCascadeServer;
 
 require_once './CalcService.php';
 require_once './CalcExtraService.php';
@@ -50,21 +49,18 @@ $options = array(
     'location' => $uri,
 );
 
-$proxy = new ServiceProxy();
 $calc_service = new CalcService();
 $calc_extra_service = new CalcExtraService();
 
 try {
     
-    $proxy_register = new ServiceRegister($proxy, $calc_service);
-    $proxy_register->registerService($calc_extra_service);
+    $server = new SoapCascadeServer(null, $options);
+    $server->registerService($calc_service);
+    $server->registerService($calc_extra_service);
+    $server->handle();
     
-} catch (ServiceRegisterProxyNotSetException $ex) {
+} catch (Exception $ex) {
     
     throw new SoapFault('SERVER', 'Application Error: ' . $ex->getMessage());
     
 }
-
-$server = new SOAPServer(null, $options);
-$server->setObject($proxy);
-$server->handle();

@@ -40,14 +40,17 @@ function display_results(array $results)
     }
 }
 
+$server_script = 'calc_server_v1.php';
+//$server_script = 'calc_server_v2.php';
+
 $http = 'http'; // https
 $host = 'sandbox.localdomain';
 $port = 80;
-$path = 'SoapCascade/examples/calc_server.php';
+$path = 'SoapCascade/examples';
 
-$template = '%s://%s:%d/%s';
+$template = '%s://%s:%d/%s/%s';
 
-$uri = sprintf($template, $http, $host, $port, $path);
+$uri = sprintf($template, $http, $host, $port, $path, $server_script);
 
 $options = array(
     'uri' => $uri,

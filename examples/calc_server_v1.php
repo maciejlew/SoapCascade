@@ -30,7 +30,6 @@ require_once '../lib/ServiceRegisterProxyNotSetException.php';
 
 use SoapCascade\ServiceProxy;
 use SoapCascade\ServiceRegister;
-use SoapCascade\ServiceRegisterProxyNotSetException;
 
 require_once './CalcService.php';
 require_once './CalcExtraService.php';
@@ -59,7 +58,7 @@ try {
     $proxy_register = new ServiceRegister($proxy, $calc_service);
     $proxy_register->registerService($calc_extra_service);
     
-} catch (ServiceRegisterProxyNotSetException $ex) {
+} catch (Exception $ex) {
     
     throw new SoapFault('SERVER', 'Application Error: ' . $ex->getMessage());
     
